@@ -3,12 +3,25 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Soundboard</title>
+	<script type="text/javascript">
+	  var sounds = [
+      "./effects/flapping-wings.ogg",
+      "./effects/thunder-clap.oga",
+      "./effects/red-tailed-hawk-scream.ogg",
+      "./effects/thunder-clap-2.oga",
+      "./ambient/thunderstorm.ogg",
+      "./music/skyrim-ost-blood-and-steel-extended.oga",
+      "./music/horizon-zero-dawn-ost-colossal.oga",
+      "./music/horizon-zero-dawn-ost-frostclaw-battle-extended.oga",
+      "./music/the-go-team-everyones-a-vip-to-someone.oga",
+	  ];
+	</script>
 </head>
 <body>
   <!-- JS here to prevent 'flash' of all the default audio players -->
   <script src="./jquery.min.js"></script>
   <script type="text/javascript" charset="utf-8">
-      $(function() {
+    $(function() {
       $("audio").each(function(i, audioElement) {
         var audio = $(this);
         var that = this; //closure to keep reference to current audio tag
@@ -25,17 +38,17 @@
         new_elem.append($('<br>'));
         new_elem.append(
           $('<input type="checkbox">loop</input>')
-          .prop('checked', (that.duration >= 60.0))
-          .click(function() {
+          .change(function() {
             that.loop = $(this).prop('checked');
           })
+          .prop('checked', (that.loop = (that.duration >= 60.0)))
         );
         $('#doc').append(new_elem);
       });
     });
   </script>
   <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px">
-    <audio src="./effects/red-tailed-hawk-scream.oga" controls autobuffer="true" title="red-tailed-hawk-scream"></audio>
+    <audio src="./effects/red-tailed-hawk-scream.ogg" controls autobuffer="true" title="red-tailed-hawk-scream"></audio>
     <audio src="./effects/flapping-wings.ogg" controls autobuffer="true" title="flapping-wings"></audio>
     <audio src="./effects/thunder-clap.oga" controls autobuffer="true" title="thunder-clap"></audio>
     <audio src="./effects/thunder-clap-2.oga" controls autobuffer="true" title="thunder-clap-2"></audio>
