@@ -18,45 +18,39 @@
 	</script>
 </head>
 <body>
-  <!-- JS here to prevent 'flash' of all the default audio players -->
+  <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px"></div>
   <script src="./jquery.min.js"></script>
   <script type="text/javascript" charset="utf-8">
+    for (var i = 0; i < sounds.length; i += 1) {
+      var sound_url = sounds[i];
+      var name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
+      var elem = $(
+        '<div class="audio_block" style="width: 270px;">' +
+          '<audio src="' + sound_url + '" controls autobuffer="true" title="' + name + '"></audio><br>' +
+          '<button style="width: 100%;">' + name + '</button><br>' +
+          '<input type="checkbox">loop</input>' +
+        '</div>'
+      );
+      $('#doc').append(elem);
+    }
     $(function() {
-      $("audio").each(function(i, audioElement) {
-        var audio = $(this);
-        var that = this; //closure to keep reference to current audio tag
-        var new_elem = $('<div style="width: 270px;">');
-        new_elem.append(audio);
-        new_elem.append($('<br>'));
-        new_elem.append(
-          $('<button style="width: 100%;">'+audio.attr('title')+'</button>')
+      $('.audio_block').each(function(i, audio_block_elem) {
+        var audio_block = $(audio_block_elem);
+        var audio = audio_block.find('audio')[0];
+        var audio_button = audio_block.find('button')[0];
+        var audio_loop_checkbox = audio_block.find('input')[0];
+        $(audio_button)
           .click(function() {
-            that.currentTime = 0;
-            that.play();
-          })
-        );
-        new_elem.append($('<br>'));
-        new_elem.append(
-          $('<input type="checkbox">loop</input>')
+            audio.currentTime = 0;
+            audio.play();
+          });
+        $(audio_loop_checkbox)
           .change(function() {
-            that.loop = $(this).prop('checked');
+            audio.loop = $(this).prop('checked');
           })
-          .prop('checked', (that.loop = (that.duration >= 60.0)))
-        );
-        $('#doc').append(new_elem);
+          .prop('checked', (audio.loop = (audio.duration >= 60.0)));
       });
     });
   </script>
-  <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px">
-    <audio src="./effects/red-tailed-hawk-scream.ogg" controls autobuffer="true" title="red-tailed-hawk-scream"></audio>
-    <audio src="./effects/flapping-wings.ogg" controls autobuffer="true" title="flapping-wings"></audio>
-    <audio src="./effects/thunder-clap.oga" controls autobuffer="true" title="thunder-clap"></audio>
-    <audio src="./effects/thunder-clap-2.oga" controls autobuffer="true" title="thunder-clap-2"></audio>
-    <audio src="./ambient/thunderstorm.ogg" controls autobuffer="true" title="thunderstorm"></audio>
-    <audio src="./music/skyrim-ost-blood-and-steel-extended.oga" controls autobuffer="true" title="skyrim-ost-blood-and-steel-extended"></audio>
-    <audio src="./music/horizon-zero-dawn-ost-colossal.oga" controls autobuffer="true" title="horizon-zero-dawn-ost-colossal"></audio>
-    <audio src="./music/horizon-zero-dawn-ost-frostclaw-battle-extended.oga" controls autobuffer="true" title="horizon-zero-dawn-ost-frostclaw-battle-extended"></audio>
-    <audio src="./music/the-go-team-everyones-a-vip-to-someone.oga" controls autobuffer="true" title="the-go-team-everyones-a-vip-to-someone"></audio>
-  </div>
 </body>
 </html>
