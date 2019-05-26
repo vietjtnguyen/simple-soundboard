@@ -4,11 +4,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Soundboard</title>
 	<script type="text/javascript">
-	  var sounds = [
-      './effects/arrow-hit-dirt-1.ogg',
-      './effects/arrow-hit-dirt-2.ogg',
-      './effects/arrow-hit-dirt-3.ogg',
-      './effects/arrow-hit-dirt-4.ogg',
+	  var sound_definitions = [
+      {
+        'name': 'arrow-hit-dirt',
+        'audio': [
+          './effects/arrow-hit-dirt-1.ogg',
+          './effects/arrow-hit-dirt-2.ogg',
+          './effects/arrow-hit-dirt-3.ogg',
+          './effects/arrow-hit-dirt-4.ogg',
+        ],
+      },
       './effects/arrow-hit-wood-1.ogg',
       './effects/arrow-miss-1.ogg',
       './effects/bludgeon-hit-flesh-groan-1.ogg',
@@ -16,16 +21,26 @@
       './effects/bludgeon-hit-metal-2.ogg',
       './effects/bludgeon-hit-metal.ogg',
       './effects/bow-loose-arrow-hit-wood.ogg',
-      './effects/clang-1.ogg',
-      './effects/clang-2.ogg',
-      './effects/clang-3.ogg',
-      './effects/clang-4.ogg',
-      './effects/clang-5.ogg',
-      './effects/clang-6.ogg',
-      './effects/clang-7.ogg',
-      './effects/crossbow-load-1.ogg',
-      './effects/crossbow-load-2.ogg',
-      './effects/crossbow-load-3.ogg',
+      {
+        'name': 'clang',
+        'audio': [
+          './effects/clang-1.ogg',
+          './effects/clang-2.ogg',
+          './effects/clang-3.ogg',
+          './effects/clang-4.ogg',
+          './effects/clang-5.ogg',
+          './effects/clang-6.ogg',
+          './effects/clang-7.ogg',
+        ],
+      },
+      {
+        'name': 'crossbow-load',
+        'audio': [
+          './effects/crossbow-load-1.ogg',
+          './effects/crossbow-load-2.ogg',
+          './effects/crossbow-load-3.ogg',
+        ],
+      },
       './effects/demons-soul-walkthrough.oga',
       './effects/flapping-wings.ogg',
       './effects/groan-1.ogg',
@@ -33,20 +48,35 @@
       './effects/punch-1.ogg',
       './effects/punch-2.ogg',
       './effects/red-tailed-hawk-scream.ogg',
-      './effects/slap-hit-groan-1.ogg',
-      './effects/slap-hit-groan-2.ogg',
-      './effects/slap-hit-groan-3.ogg',
-      './effects/slap-hit-groan-4.ogg',
-      './effects/slash-hit-flesh-groan-1.ogg',
-      './effects/slash-hit-flesh-groan-2.ogg',
-      './effects/slash-hit-flesh-groan-3.ogg',
+      {
+        'name': 'slap-hit-groan',
+        'audio': [
+          './effects/slap-hit-groan-1.ogg',
+          './effects/slap-hit-groan-2.ogg',
+          './effects/slap-hit-groan-3.ogg',
+          './effects/slap-hit-groan-4.ogg',
+        ],
+      },
+      {
+        'name': 'slash-hit-flesh-groan',
+        'audio': [
+          './effects/slash-hit-flesh-groan-1.ogg',
+          './effects/slash-hit-flesh-groan-2.ogg',
+          './effects/slash-hit-flesh-groan-3.ogg',
+        ],
+      },
       './effects/slash-hit-metal-1.ogg',
       './effects/slash-hit-metal-2.ogg',
       './effects/slice-1.ogg',
       './effects/sword-clang-1.ogg',
-      './effects/sword-clash-1.ogg',
-      './effects/sword-clash-2.ogg',
-      './effects/sword-clash-3.ogg',
+      {
+        'name': 'sword-clash',
+        'audio': [
+          './effects/sword-clash-1.ogg',
+          './effects/sword-clash-2.ogg',
+          './effects/sword-clash-3.ogg',
+        ],
+      },
       './effects/thunder-clap-2.oga',
       './effects/thunder-clap.oga',
       './effects/whoosh-1.ogg',
@@ -63,34 +93,67 @@
   <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px"></div>
   <script src="./jquery.min.js"></script>
   <script type="text/javascript" charset="utf-8">
-    for (var i = 0; i < sounds.length; i += 1) {
-      var sound_url = sounds[i];
-      var name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
+    for (var i = 0; i < sound_definitions.length; i += 1) {
+      var sound_definition = sound_definitions[i];
       var elem = $(
-        '<div class="audio_block" style="width: 270px;">' +
-          '<audio src="' + sound_url + '" controls autobuffer="true" title="' + name + '"></audio><br>' +
-          '<button style="width: 100%;">' + name + '</button><br>' +
-          '<input type="checkbox">loop</input>' +
-        '</div>'
+        '<div class="audio_block" style="width: 270px;"></div>'
       );
+      var name = '';
+      if (typeof(sound_definition) == 'string') {
+        var sound_url = sound_definition;
+        var sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
+        elem.append($(
+          '<audio src="' + sound_url + '" controls autobuffer="true" title="' + sound_name + '" style="height: 15px;"></audio><br>'
+        ));
+        name = sound_name;
+        elem.append($('<button style="width: 100%;">' + name + '</button><br>'));
+        elem.append($('<input type="checkbox">loop</input>'));
+      } else {
+        var sound_urls = sound_definition.audio;
+        for (var j = 0; j < sound_urls.length; j += 1) {
+          var sound_url = sound_urls[j];
+          var sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
+          elem.append($(
+            '<audio src="' + sound_url + '" controls autobuffer="true" title="' + sound_name + '" style="height: 15px;"></audio><br>'
+          ));
+        }
+        name = sound_definition.name;
+        elem.append($('<button style="width: 100%;">' + name + '</button><br>'));
+      }
       $('#doc').append(elem);
     }
     $(function() {
       $('.audio_block').each(function(i, audio_block_elem) {
         var audio_block = $(audio_block_elem);
+        var all_audio = audio_block.find('audio');
         var audio = audio_block.find('audio')[0];
         var audio_button = audio_block.find('button')[0];
-        var audio_loop_checkbox = audio_block.find('input')[0];
         $(audio_button)
           .click(function() {
+            var index = parseInt(Math.random() * all_audio.length);
+            var audio = all_audio[index];
             audio.currentTime = 0;
             audio.play();
           });
-        $(audio_loop_checkbox)
-          .change(function() {
-            audio.loop = $(this).prop('checked');
-          })
-          .prop('checked', (audio.loop = (audio.duration >= 60.0)));
+
+        // If this isn't a group of audio then looping can be controlled using
+        // an input checkbox.
+        var audio_loop_checkbox = audio_block.find('input');
+        if (audio_loop_checkbox) {
+          audio_loop_checkbox = audio_loop_checkbox[0];
+          $(audio_loop_checkbox)
+            // if the loop checkbox is changed then we update the audio clip
+            // looping
+            .change(function() {
+              var that = $(this);
+              $(all_audio).each(function (x) {
+                x.loop = that.prop('checked');
+              });
+            })
+            // automatically set audio clips that are longer than 60 seconds to
+            // loop
+            .prop('checked', (audio.loop = (audio.duration >= 60.0)));
+        }
       });
     });
   </script>
