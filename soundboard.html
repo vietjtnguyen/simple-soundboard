@@ -147,8 +147,18 @@
         var audio_button = audio_block.find('button')[0];
         $(audio_button)
           .click(function() {
-            var index = parseInt(Math.random() * all_audio.length);
-            var audio = all_audio[index];
+            if (audio_block.unplayed_indices === undefined ||
+                audio_block.unplayed_indices.length == 0) {
+              audio_block.unplayed_indices = Array();
+              for (var i = 0; i < all_audio.length; i += 1) {
+                audio_block.unplayed_indices.push(i);
+              }
+            }
+            var index_into_unplayed =
+              parseInt(Math.random() * audio_block.unplayed_indices.length);
+            var index_into_audio =
+              audio_block.unplayed_indices.splice(index_into_unplayed, 1)[0];
+            var audio = all_audio[index_into_audio];
             audio.currentTime = 0;
             audio.play();
           });
