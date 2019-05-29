@@ -93,13 +93,20 @@
 <body>
   <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px"></div>
   <script type="text/javascript" charset="utf-8">
+
+    // Go through each sound definition and insert the HTML elements
+    // accordingly
     for (var i = 0; i < sound_definitions.length; i += 1) {
+
       var sound_definition = sound_definitions[i];
       var elem = $(
         '<div class="audio_block" style="width: 270px;"></div>'
       );
+
       var name = '';
       if (typeof(sound_definition) == 'string') {
+        // Definitions that are just strings are assumed to be just the URL for
+        // a single audio clip.
         var sound_url = sound_definition;
         var sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
         elem.append($(
@@ -107,8 +114,11 @@
         ));
         name = sound_name;
         elem.append($('<button style="width: 100%;">' + name + '</button><br>'));
-        elem.append($('<input type="checkbox">loop</input>'));
-      } else {
+        elem.append($('<input class="loop" type="checkbox">loop</input>'));
+      } else if (typeof(sound_definition) == 'object') {
+        // Definitions that are objects are assumed to be hash objects that
+        // have two keys: 'name' and 'audio'. The 'audio' key is expected to be
+        // an array of audio clip URLs.
         var sound_urls = sound_definition.audio;
         for (var j = 0; j < sound_urls.length; j += 1) {
           var sound_url = sound_urls[j];
@@ -120,9 +130,16 @@
         name = sound_definition.name;
         elem.append($('<button style="width: 100%;">' + name + '</button><br>'));
       }
+
       $('#doc').append(elem);
     }
-    $(function() {
+
+    // Do stuff after the document is done loading so that the audio clips are
+    // available for referencing
+    $(document).ready(function() {
+
+      // Go through each audio block to set up the play button handler to play
+      // some random audio in tbe audio block.
       $('.audio_block').each(function(i, audio_block_elem) {
         var audio_block = $(audio_block_elem);
         var all_audio = audio_block.find('audio');
@@ -138,19 +155,19 @@
 
         // If this isn't a group of audio then looping can be controlled using
         // an input checkbox.
-        var audio_loop_checkbox = audio_block.find('input');
+        var audio_loop_checkbox = audio_block.find('.loop');
         if (audio_loop_checkbox) {
           audio_loop_checkbox = audio_loop_checkbox[0];
           $(audio_loop_checkbox)
-            // if the loop checkbox is changed then we update the audio clip
-            // looping
+            // If the loop checkbox is changed then we update the audio clip's
+            // looping state to match the checkbox state
             .change(function() {
-              var that = $(this);
-              $(all_audio).each(function (x) {
-                x.loop = that.prop('checked');
+              var checkbox = $(this);
+              $(all_audio).each(function (i, x) {
+                x.loop = checkbox.prop('checked');
               });
             })
-            // automatically set audio clips that are longer than 60 seconds to
+            // Automatically set audio clips that are longer than 60 seconds to
             // loop
             .prop('checked', (audio.loop = (audio.duration >= 60.0)));
         }
