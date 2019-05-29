@@ -3,6 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Soundboard</title>
+  <script src="./jquery-v3.4.1.min.js"></script>
   <script type="text/javascript">
     var sound_definitions = [
       {
@@ -91,7 +92,6 @@
 </head>
 <body>
   <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px"></div>
-  <script src="./jquery.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     for (var i = 0; i < sound_definitions.length; i += 1) {
       var sound_definition = sound_definitions[i];
