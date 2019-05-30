@@ -4,6 +4,8 @@ Simple Soundboard is just that.  It is written as just an HTML page to play loop
 
 I wrote it for my Dungeons and Dragons game when I couldn't find a simple and free soundboard.  Your browser is fully capable of mixing sounds and display a user interface.  It's also pervasive to boot so it made sense to just make it a web page.
 
+The example in this repository is statically hosted to play with: <https://vietthe.dev/simple-soundboard/soundboard.html>
+
 # Usage
 
 ![](screenshot.png)
