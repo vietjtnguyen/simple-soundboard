@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Soundboard</title>
+  <script src="./jquery-v3.4.1.min.js"></script>
+  <script type="text/javascript">
+    var sound_definitions = [
+      './effects/whoosh-crunch-1.ogg', // https://www.youtube.com/watch?v=U_Lh28jM4vc
+      './effects/red-tailed-hawk-scream.ogg', // https://www.youtube.com/watch?v=33DWqRyAAUw
+      {
+        'name': 'thunder-clap',
+        'audio': [
+          './effects/thunder-clap-1.ogg', // https://www.youtube.com/watch?v=ZHeLUVDYLIg
+          './effects/thunder-clap-2.ogg', // https://www.youtube.com/watch?v=QZpgHrKXooc
+          './effects/thunder-clap-3.ogg', // https://www.youtube.com/watch?v=QZpgHrKXooc
+          './effects/thunder-clap-4.ogg', // https://www.youtube.com/watch?v=QZpgHrKXooc
+        ],
+      },
+      './effects/flapping-wings.ogg', // https://www.youtube.com/watch?v=EDy8G89325c
+      './ambient/thunderstorm.ogg', // https://www.youtube.com/watch?v=eqabnkMmqyM
+      './music/skyrim-ost-blood-and-steel.ogg', // https://www.youtube.com/watch?v=q_AUBic3NEo
+    ];
+  </script>
+</head>
+<body>
+  <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px"></div>
+  <script type="text/javascript" charset="utf-8">
+
+    // Go through each sound definition and insert the HTML elements
+    // accordingly
+    for (var i = 0; i < sound_definitions.length; i += 1) {
+
+      var sound_definition = sound_definitions[i];
+      var elem = $(
+        '<div class="audio_block" style="width: 270px;"></div>'
+      );
+
+      var name = '';
+      if (typeof(sound_definition) == 'string') {
+        // Definitions that are just strings are assumed to be just the URL for
+        // a single audio clip.
+        var sound_url = sound_definition;
+        var sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
+        elem.append($(
+          '<audio src="' + sound_url + '" controls autobuffer="true" title="' + sound_name + '" style="height: 15px;"></audio><br>'
+        ));
+        name = sound_name;
+        elem.append($('<button style="width: 100%;">' + name + '</button><br>'));
+        elem.append($('<input class="loop" type="checkbox">loop</input>'));
+      } else if (typeof(sound_definition) == 'object') {
+        // Definitions that are objects are assumed to be hash objects that
+        // have two keys: 'name' and 'audio'. The 'audio' key is expected to be
+        // an array of audio clip URLs.
+        var sound_urls = sound_definition.audio;
+        for (var j = 0; j < sound_urls.length; j += 1) {
+          var sound_url = sound_urls[j];
+          var sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
+          elem.append($(
+            '<audio src="' + sound_url + '" controls autobuffer="true" title="' + sound_name + '" style="height: 15px;"></audio><br>'
+          ));
+        }
+        name = sound_definition.name;
+        elem.append($('<button style="width: 100%;">' + name + '</button><br>'));
+      }
+
+      $('#doc').append(elem);
+    }
+
+    // Do stuff after the document is done loading so that the audio clips are
+    // available for referencing
+    $(document).ready(function() {
+
+      // Go through each audio block to set up the play button handler to play
+      // some random audio in tbe audio block.
+      $('.audio_block').each(function(i, audio_block_elem) {
+        var audio_block = $(audio_block_elem);
+        var all_audio = audio_block.find('audio');
+        var audio = audio_block.find('audio')[0];
+        var audio_button = audio_block.find('button')[0];
+        $(audio_button)
+          .click(function() {
+            if (audio_block.unplayed_indices === undefined ||
+                audio_block.unplayed_indices.length == 0) {
+              audio_block.unplayed_indices = Array();
+              for (var i = 0; i < all_audio.length; i += 1) {
+                audio_block.unplayed_indices.push(i);
+              }
+            }
+            var index_into_unplayed =
+              parseInt(Math.random() * audio_block.unplayed_indices.length);
+            var index_into_audio =
+              audio_block.unplayed_indices.splice(index_into_unplayed, 1)[0];
+            var audio = all_audio[index_into_audio];
+            audio.currentTime = 0;
+            audio.play();
+          });
+
+        // If this isn't a group of audio then looping can be controlled using
+        // an input checkbox.
+        var audio_loop_checkbox = audio_block.find('.loop');
+        if (audio_loop_checkbox) {
+          audio_loop_checkbox = audio_loop_checkbox[0];
+          $(audio_loop_checkbox)
+            // If the loop checkbox is changed then we update the audio clip's
+            // looping state to match the checkbox state
+            .change(function() {
+              var checkbox = $(this);
+              $(all_audio).each(function (i, x) {
+                x.loop = checkbox.prop('checked');
+              });
+            })
+            // Automatically set audio clips that are longer than 60 seconds to
+            // loop
+            .prop('checked', (audio.loop = (audio.duration >= 60.0)));
+        }
+      });
+    });
+  </script>
+</body>
+</html>
