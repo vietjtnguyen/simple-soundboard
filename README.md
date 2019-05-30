@@ -6,6 +6,8 @@ I wrote it for my Dungeons and Dragons game when I couldn't find a simple and fr
 
 # Usage
 
+![](screenshot.png)
+
 Open up [`soundboard.html`](./soundboard.html) in your favorite browser.  I've tested it mostly with Firefox on Linux (Ubuntu), Firefox on Mac OS X, and Chrome on Mac OS X.
 
 Each sound is placed into its own block.  The block shows the audio widget(s) for the sound(s) which allows you to play/pause, scrub time, and change volume. Beneath the audio widgets is a button which can be used to quick scrub to the beginning of the clip and play the sound.  Beneath the button for non-grouped sound blocks is a checkbox which controls whether the sound loops.  By default sounds that are 60 seconds or longer are marked for looping.
