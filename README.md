@@ -2,7 +2,7 @@
 
 Simple Soundboard is just that.  It is written as just an HTML page to play looping ambient sounds, looping music, and instantaneous sound effects.  It is just a web page that can be loaded off of the file system (though can be statically hosted if desired).
 
-I wrote it for my Dungeons and Dragons game when I couldn't find a simple and free soundboard.  Your browser is fully capable of mixing sounds and display a user interface.  It's also prevasive to boot so it made sense to just make it a web page.
+I wrote it for my Dungeons and Dragons game when I couldn't find a simple and free soundboard.  Your browser is fully capable of mixing sounds and display a user interface.  It's also pervasive to boot so it made sense to just make it a web page.
 
 # Usage
 
@@ -44,7 +44,7 @@ So far I've been finding clips and audio tracks on YouTube, grabbing them using 
 
 # Contributing
 
-The interface is purpusefully spartan.  Feel free to send me pull requests if you have nice stylings or features.
+The interface is purposefully spartan.  Feel free to send me pull requests if you have nice styling or features.
 
 # License
 
