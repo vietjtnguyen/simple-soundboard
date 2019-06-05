@@ -4,28 +4,19 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Soundboard</title>
   <script src="./jquery-v3.4.1.min.js"></script>
-  <script type="text/javascript">
-    var sound_definitions = [
-      './effects/whoosh-crunch-1.ogg', // https://www.youtube.com/watch?v=U_Lh28jM4vc
-      './effects/red-tailed-hawk-scream.ogg', // https://www.youtube.com/watch?v=33DWqRyAAUw
-      {
-        'name': 'thunder-clap',
-        'audio': [
-          './effects/thunder-clap-1.ogg', // https://www.youtube.com/watch?v=ZHeLUVDYLIg
-          './effects/thunder-clap-2.ogg', // https://www.youtube.com/watch?v=QZpgHrKXooc
-          './effects/thunder-clap-3.ogg', // https://www.youtube.com/watch?v=QZpgHrKXooc
-          './effects/thunder-clap-4.ogg', // https://www.youtube.com/watch?v=QZpgHrKXooc
-        ],
-      },
-      './effects/flapping-wings.ogg', // https://www.youtube.com/watch?v=EDy8G89325c
-      './ambient/thunderstorm.ogg', // https://www.youtube.com/watch?v=eqabnkMmqyM
-      './music/skyrim-ost-blood-and-steel.ogg', // https://www.youtube.com/watch?v=q_AUBic3NEo
-    ];
-  </script>
+  <script src="./definitions.js"></script>
 </head>
 <body>
   <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px"></div>
   <script type="text/javascript" charset="utf-8">
+    var sound_definitions = soundboards[window.location.search.substring(1)];
+    if (sound_definitions === undefined) {
+      sound_definitions = [];
+      body = $(window.document.body);
+      for (var soundboard in soundboards) {
+        body.append($('<a href="?' + soundboard + '">' + soundboard + '</a><br>'));
+      };
+    }
 
     // Go through each sound definition and insert the HTML elements
     // accordingly
