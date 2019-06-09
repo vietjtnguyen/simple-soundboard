@@ -38,6 +38,7 @@
         ));
         name = sound_name;
         elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
+        elem.append($('<button style="width: 50%;" class="fadeout">fade out</button><br>'));
         elem.append($('<input class="loop" type="checkbox">loop</input>'));
       } else if (typeof(sound_definition) == 'object') {
         // Definitions that are objects are assumed to be hash objects that
@@ -53,6 +54,7 @@
         }
         name = sound_definition.name;
         elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
+        elem.append($('<button style="width: 50%;" class="fadeout">fade out</button><br>'));
       }
 
       $('#doc').append(elem);
@@ -91,6 +93,18 @@
             audio.play();
             if (audio.volume == 0.0) {
               audio.volume = 1.0;
+            }
+          });
+        let fade_out_button = audio_block.find('button.fadeout')[0];
+        $(fade_out_button)
+          .click(function() {
+            for (let i = 0; i < all_audio.length; i += 1) {
+              $(all_audio[i]).animate(
+                {'volume': 0},
+                4000,
+                function() {
+                  this.pause();
+                });
             }
           });
 
