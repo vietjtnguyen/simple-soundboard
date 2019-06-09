@@ -34,7 +34,7 @@
         let sound_url = sound_definition;
         let sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
         elem.append($(
-          '<audio src="' + sound_url + '" controls autobuffer="true" title="' + sound_name + '" style="height: 15px;"></audio><br>'
+          '<audio src="' + sound_url + '" controls preload="metadata" autobuffer="true" title="' + sound_name + '" style="width: 100%; height: 15px;"></audio><br>'
         ));
         name = sound_name;
         elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
@@ -54,7 +54,7 @@
           let sound_url = sound_urls[j];
           let sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
           elem.append($(
-            '<audio src="' + sound_url + '" controls autobuffer="true" title="' + sound_name + '" style="height: 15px;"></audio><br>'
+            '<audio src="' + sound_url + '" controls preload="metadata" autobuffer="true" title="' + sound_name + '" style="width: 100%; height: 15px;"></audio><br>'
           ));
         }
         name = sound_definition.name;
