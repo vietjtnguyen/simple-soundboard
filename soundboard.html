@@ -37,7 +37,7 @@
           '<audio src="' + sound_url + '" controls autobuffer="true" title="' + sound_name + '" style="height: 15px;"></audio><br>'
         ));
         name = sound_name;
-        elem.append($('<button style="width: 100%;">' + name + '</button><br>'));
+        elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
         elem.append($('<input class="loop" type="checkbox">loop</input>'));
       } else if (typeof(sound_definition) == 'object') {
         // Definitions that are objects are assumed to be hash objects that
@@ -52,7 +52,7 @@
           ));
         }
         name = sound_definition.name;
-        elem.append($('<button style="width: 100%;">' + name + '</button><br>'));
+        elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
       }
 
       $('#doc').append(elem);
@@ -72,7 +72,7 @@
           .click(function() {
             console.log($(this).volume);
           });
-        let quick_play_button = audio_block.find('button')[0];
+        let quick_play_button = audio_block.find('button.quickplay')[0];
         $(quick_play_button)
           .click(function() {
             if (audio_block.unplayed_indices === undefined ||
