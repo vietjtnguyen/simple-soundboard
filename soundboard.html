@@ -89,6 +89,9 @@
             let audio = all_audio[index_into_audio];
             audio.currentTime = 0;
             audio.play();
+            if (audio.volume == 0.0) {
+              audio.volume = 1.0;
+            }
           });
 
         // If this isn't a group of audio then looping can be controlled using
