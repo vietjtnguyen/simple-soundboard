@@ -39,6 +39,11 @@
         name = sound_name;
         elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
         elem.append($('<button style="width: 50%;" class="fadeout">fade out</button><br>'));
+        elem.append($('<button style="width: 20%;" class="volumedec10">-10%</button>'));
+        elem.append($('<button style="width: 20%;" class="volumeinc10">+10%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume0">0%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume50">50%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume100">100%</button><br>'));
         elem.append($('<input class="loop" type="checkbox">loop</input>'));
       } else if (typeof(sound_definition) == 'object') {
         // Definitions that are objects are assumed to be hash objects that
@@ -55,6 +60,11 @@
         name = sound_definition.name;
         elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
         elem.append($('<button style="width: 50%;" class="fadeout">fade out</button><br>'));
+        elem.append($('<button style="width: 20%;" class="volumedec10">-10%</button>'));
+        elem.append($('<button style="width: 20%;" class="volumeinc10">+10%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume0">0%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume50">50%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume100">100%</button><br>'));
       }
 
       $('#doc').append(elem);
@@ -107,6 +117,29 @@
                 });
             }
           });
+        let quick_decrement_volume_button = audio_block.find('button.volumedec10')[0];
+        $(quick_decrement_volume_button)
+          .click(function() {
+            for (let i = 0; i < all_audio.length; i += 1) {
+              all_audio[i].volume = Math.max(0, all_audio[i].volume - 0.1);
+            }
+          });
+        let quick_increment_volume_button = audio_block.find('button.volumeinc10')[0];
+        $(quick_increment_volume_button)
+          .click(function() {
+            for (let i = 0; i < all_audio.length; i += 1) {
+              all_audio[i].volume = Math.min(1, all_audio[i].volume + 0.1);
+            }
+          });
+        for (const volume of [0, 50, 100]) {
+          let quick_volume_button = audio_block.find('button.volume' + volume.toString())[0];
+          $(quick_volume_button)
+            .click(function() {
+              for (let i = 0; i < all_audio.length; i += 1) {
+                all_audio[i].volume = volume / 100.0;
+              }
+            });
+        }
 
         // If this isn't a group of audio then looping can be controlled using
         // an input checkbox.
