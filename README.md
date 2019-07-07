@@ -30,15 +30,32 @@ The project started off by editing [ryandoherty/ClouserW-Soundboard](https://git
 
 To demonstrate the soundboard there are some example audio clips in the project that need to be attributed.  These audio clips came from YouTube; their respective source URLs are listed below.  The clips were chopped up and converted to OGG using [Audacity](https://www.audacityteam.org/).
 
-- [`./ambient/thunderstorm.ogg`](./ambient/thunderstorm.ogg): <https://www.youtube.com/watch?v=eqabnkMmqyM>
-- [`./effects/flapping-wings.ogg`](./effects/flapping-wings.ogg): <https://www.youtube.com/watch?v=EDy8G89325c>
-- [`./effects/red-tailed-hawk-scream.ogg`](./effects/red-tailed-hawk-scream.ogg): <https://www.youtube.com/watch?v=33DWqRyAAUw>
-- [`./effects/thunder-clap-1.ogg`](./effects/thunder-clap-1.ogg): <https://www.youtube.com/watch?v=ZHeLUVDYLIg>
-- [`./effects/thunder-clap-2.ogg`](./effects/thunder-clap-2.ogg): <https://www.youtube.com/watch?v=QZpgHrKXooc>
-- [`./effects/thunder-clap-3.ogg`](./effects/thunder-clap-3.ogg): <https://www.youtube.com/watch?v=QZpgHrKXooc>
-- [`./effects/thunder-clap-4.ogg`](./effects/thunder-clap-4.ogg): <https://www.youtube.com/watch?v=QZpgHrKXooc>
-- [`./effects/whoosh-crunch-1.ogg`](./effects/whoosh-crunch-1.ogg): <https://www.youtube.com/watch?v=U_Lh28jM4vc>
-- [`./music/skyrim-ost-blood-and-steel.ogg`](./music/skyrim-ost-blood-and-steel.ogg): <https://www.youtube.com/watch?v=q_AUBic3NEo>
+- ./ambient/docks.ogg: https://www.youtube.com/watch?v=35H1tJ-VUQ8
+- ./ambient/dripping-cave.ogg: https://www.youtube.com/watch?v=3Hwr_BaekgM
+- ./ambient/evening-town.ogg: https://www.youtube.com/watch?v=bSbYpFMNxLI
+- ./ambient/forest-daytime.ogg: https://www.youtube.com/watch?v=6Em9tLXbhfo
+- ./ambient/horseback-travelling.ogg: https://www.youtube.com/watch?v=PIvykxZ0ppQ
+- ./ambient/night-camp.ogg: https://www.youtube.com/watch?v=7KFoj-SOfHs
+- ./ambient/rapid-river.ogg: https://www.youtube.com/watch?v=KRg0vHytUzg
+- ./ambient/small-marketplace.ogg: https://www.youtube.com/watch?v=x2UulCWGess
+- ./ambient/thunderstorm.ogg: https://www.youtube.com/watch?v=eqabnkMmqyM
+- ./ambient/town-square-daytime.ogg: https://www.youtube.com/watch?v=NeOg8iCFfTA
+- ./ambient/woodland-village.ogg: https://www.youtube.com/watch?v=-IEAfnRneP4
+- ./effects/arrow-loose-and-hit-*.ogg: https://www.youtube.com/watch?v=e8VxBmZqFkY
+- ./effects/dirt-slam-*.ogg: https://www.youtube.com/watch?v=WOWav94syLc
+- ./effects/dragon-bite-*.ogg: https://www.youtube.com/watch?v=WOWav94syLc
+- ./effects/ooze-*.ogg: https://www.youtube.com/watch?v=XxbTFBkNfgQ
+- ./effects/owlbear-roar-*.ogg: https://www.youtube.com/watch?v=nqFjsnoDb2g
+- ./effects/slam-attack-*.ogg: https://www.youtube.com/watch?v=WOWav94syLc
+- ./effects/swimming-*.ogg: https://www.youtube.com/watch?v=f4JImUZwTwo
+- ./effects/sword-clash-*.ogg: https://www.youtube.com/watch?v=f3mktVQ-n_c
+- ./effects/thunder-clap-1.ogg: https://www.youtube.com/watch?v=ZHeLUVDYLIg
+- ./effects/thunder-clap-2.ogg: https://www.youtube.com/watch?v=QZpgHrKXooc
+- ./effects/thunder-clap-3.ogg: https://www.youtube.com/watch?v=QZpgHrKXooc
+- ./effects/thunder-clap-4.ogg: https://www.youtube.com/watch?v=QZpgHrKXooc
+- ./effects/wave-crash-*.ogg: https://www.youtube.com/watch?v=xvNNTc6ZPtQ
+- ./music/darkest-dungeon-the-cove-battle.ogg: https://www.youtube.com/watch?v=tluwkXgr93Y
+- ./music/skyrim-ost-blood-and-steel.ogg: https://www.youtube.com/watch?v=q_AUBic3NEo
 
 # Getting Sound Clips
 
