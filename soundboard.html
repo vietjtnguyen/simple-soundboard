@@ -13,9 +13,13 @@
     if (sound_definitions === undefined) {
       sound_definitions = [];
       body = $(window.document.body);
+      body.append($('<h1>Available Soundboards<h1>'));
+      list_html = '<ul>'
       for (const soundboard in soundboards) {
-        body.append($('<a href="?' + soundboard + '">' + soundboard + '</a><br>'));
+        list_html += '<li><a href="?' + soundboard + '">' + soundboard + '</a></li>';
       };
+      list_html += '</ul>'
+      body.append($(list_html));
     }
 
     // Go through each sound definition and insert the HTML elements
