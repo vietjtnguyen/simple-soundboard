@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Soundboard</title>
+  <script src="./jquery-v3.4.1.min.js"></script>
+  <script src="./definitions.js"></script>
+</head>
+<body>
+  <div id="doc" style="display: grid; grid: auto-flow / repeat(auto-fill, 270px); grid-gap: 10px"></div>
+  <script type="text/javascript" charset="utf-8">
+    let sound_definitions = soundboards[window.location.search.substring(1)];
+    if (sound_definitions === undefined) {
+      sound_definitions = [];
+      body = $(window.document.body);
+      body.append($('<h1>Available Soundboards<h1>'));
+      list_html = '<ul>'
+      for (const soundboard in soundboards) {
+        list_html += '<li><a href="?' + soundboard + '">' + soundboard + '</a></li>';
+      };
+      list_html += '</ul>'
+      body.append($(list_html));
+    }
+
+    // Go through each sound definition and insert the HTML elements
+    // accordingly
+    for (let i = 0; i < sound_definitions.length; i += 1) {
+
+      let sound_definition = sound_definitions[i];
+      let elem = $(
+        '<div class="audio_block" style="width: 270px;"></div>'
+      );
+
+      let name = '';
+      if (typeof(sound_definition) == 'string') {
+        // Definitions that are just strings are assumed to be just the URL for
+        // a single audio clip.
+        let sound_url = sound_definition;
+        let sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
+        elem.append($(
+          '<audio src="' + sound_url + '" controls preload="metadata" autobuffer="true" title="' + sound_name + '" style="width: 100%; height: 15px;"></audio><br>'
+        ));
+        name = sound_name;
+        elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
+        elem.append($('<button style="width: 25%;" class="fadein">f in</button>'));
+        elem.append($('<button style="width: 25%;" class="fadeout">f out</button><br>'));
+        elem.append($('<button style="width: 20%;" class="volumedec10">-10%</button>'));
+        elem.append($('<button style="width: 20%;" class="volumeinc10">+10%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume0">0%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume50">50%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume100">100%</button><br>'));
+        elem.append($('<input class="loop" type="checkbox">loop</input>'));
+      } else if (typeof(sound_definition) == 'object') {
+        // Definitions that are objects are assumed to be hash objects that
+        // have two keys: 'name' and 'audio'. The 'audio' key is expected to be
+        // an array of audio clip URLs.
+        let sound_urls = sound_definition.audio;
+        for (let j = 0; j < sound_urls.length; j += 1) {
+          let sound_url = sound_urls[j];
+          let sound_name = sound_url.match(/.+\/(.+)\.\w{3}/)[1];
+          elem.append($(
+            '<audio src="' + sound_url + '" controls preload="metadata" autobuffer="true" title="' + sound_name + '" style="width: 100%; height: 15px;"></audio><br>'
+          ));
+        }
+        name = sound_definition.name;
+        elem.append($('<button style="width: 50%;" class="quickplay">' + name + '</button>'));
+        elem.append($('<button style="width: 25%;" class="fadein">f in</button>'));
+        elem.append($('<button style="width: 25%;" class="fadeout">f out</button><br>'));
+        elem.append($('<button style="width: 20%;" class="volumedec10">-10%</button>'));
+        elem.append($('<button style="width: 20%;" class="volumeinc10">+10%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume0">0%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume50">50%</button>'));
+        elem.append($('<button style="width: 20%;" class="volume100">100%</button><br>'));
+      }
+
+      $('#doc').append(elem);
+    }
+
+    // Do stuff after the document is done loading so that the audio clips are
+    // available for referencing
+    $(document).ready(function() {
+
+      // Go through each audio block to set up the play button handler to play
+      // some random audio in tbe audio block.
+      $('.audio_block').each(function(i, audio_block_elem) {
+        let audio_block = $(audio_block_elem);
+        let all_audio = audio_block.find('audio');
+        let audio = audio_block.find('audio')[0];
+        $(audio)
+          .click(function() {
+            console.log($(this).volume);
+          });
+        let quick_play_button = audio_block.find('button.quickplay')[0];
+        $(quick_play_button)
+          .click(function() {
+            if (audio_block.unplayed_indices === undefined ||
+                audio_block.unplayed_indices.length == 0) {
+              audio_block.unplayed_indices = Array();
+              for (let i = 0; i < all_audio.length; i += 1) {
+                audio_block.unplayed_indices.push(i);
+              }
+            }
+            let index_into_unplayed =
+              parseInt(Math.random() * audio_block.unplayed_indices.length);
+            let index_into_audio =
+              audio_block.unplayed_indices.splice(index_into_unplayed, 1)[0];
+            let audio = all_audio[index_into_audio];
+            audio.currentTime = 0;
+            audio.play();
+            if (audio.volume == 0.0) {
+              audio.volume = 1.0;
+            }
+          });
+        let fade_in_button = audio_block.find('button.fadein')[0];
+        $(fade_in_button)
+          .click(function() {
+            if (audio_block.unplayed_indices === undefined ||
+                audio_block.unplayed_indices.length == 0) {
+              audio_block.unplayed_indices = Array();
+              for (let i = 0; i < all_audio.length; i += 1) {
+                audio_block.unplayed_indices.push(i);
+              }
+            }
+            let index_into_unplayed =
+              parseInt(Math.random() * audio_block.unplayed_indices.length);
+            let index_into_audio =
+              audio_block.unplayed_indices.splice(index_into_unplayed, 1)[0];
+            let audio = all_audio[index_into_audio];
+            audio.currentTime = 0;
+            audio.play();
+            for (let i = 0; i < all_audio.length; i += 1) {
+              all_audio[i].volume = 0;
+              $(all_audio[i]).animate(
+                {'volume': 1},
+                4000);
+            }
+          });
+        let fade_out_button = audio_block.find('button.fadeout')[0];
+        $(fade_out_button)
+          .click(function() {
+            for (let i = 0; i < all_audio.length; i += 1) {
+              $(all_audio[i]).animate(
+                {'volume': 0},
+                4000,
+                function() {
+                  this.pause();
+                });
+            }
+          });
+        let quick_decrement_volume_button = audio_block.find('button.volumedec10')[0];
+        $(quick_decrement_volume_button)
+          .click(function() {
+            for (let i = 0; i < all_audio.length; i += 1) {
+              all_audio[i].volume = Math.max(0, all_audio[i].volume - 0.1);
+            }
+          });
+        let quick_increment_volume_button = audio_block.find('button.volumeinc10')[0];
+        $(quick_increment_volume_button)
+          .click(function() {
+            for (let i = 0; i < all_audio.length; i += 1) {
+              all_audio[i].volume = Math.min(1, all_audio[i].volume + 0.1);
+            }
+          });
+        for (const volume of [0, 50, 100]) {
+          let quick_volume_button = audio_block.find('button.volume' + volume.toString())[0];
+          $(quick_volume_button)
+            .click(function() {
+              for (let i = 0; i < all_audio.length; i += 1) {
+                all_audio[i].volume = volume / 100.0;
+              }
+            });
+        }
+
+        // If this isn't a group of audio then looping can be controlled using
+        // an input checkbox.
+        let audio_loop_checkbox = audio_block.find('.loop');
+        if (audio_loop_checkbox) {
+          audio_loop_checkbox = audio_loop_checkbox[0];
+          $(audio_loop_checkbox)
+            // If the loop checkbox is changed then we update the audio clip's
+            // looping state to match the checkbox state
+            .change(function() {
+              var checkbox = $(this);
+              $(all_audio).each(function (i, x) {
+                x.loop = checkbox.prop('checked');
+              });
+            })
+            // Automatically set audio clips that are longer than 60 seconds to
+            // loop
+            .prop('checked', (audio.loop = (audio.duration >= 60.0)));
+        }
+      });
+    });
+  </script>
+</body>
+</html>
