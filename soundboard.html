@@ -92,7 +92,16 @@
           });
         let quick_play_button = audio_block.find('button.quickplay')[0];
         $(quick_play_button)
-          .click(function() {
+          .click(function(e) {
+
+            // If the shift key is held then pause all audio.
+            if (e.shiftKey) {
+              for (let i = 0; i < all_audio.length; i += 1) {
+                all_audio[i].pause();
+              }
+              return;
+            }
+
             if (audio_block.unplayed_indices === undefined ||
                 audio_block.unplayed_indices.length == 0) {
               audio_block.unplayed_indices = Array();
@@ -100,6 +109,7 @@
                 audio_block.unplayed_indices.push(i);
               }
             }
+
             let index_into_unplayed =
               parseInt(Math.random() * audio_block.unplayed_indices.length);
             let index_into_audio =
